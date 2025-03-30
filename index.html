@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+</head>
+<body>
+    <main>
+        <dynamic-list sortable>
+            <user-card></user-card>
+        </dynamic-list>
+        <reactive-form id="form1">
+            <div>
+                <input type="hidden" name="id" />
+                <input type="text" name="name" placeholder="Name" />
+                <input type="email" name="email" placeholder="Email" />
+                <input type="number" name="age" placeholder="Age" />
+            </div>
+            <div class="flex">
+                <button type="reset">reset</button>
+                <button type="submit">submit</button>
+            </div>
+            <form-debug></form-debug>
+        </reactive-form>
+
+        <reactive-form>
+            <div>
+                <input type="text" name="name" placeholder="Name" />
+                <input type="email" name="email" placeholder="Email" />
+                <input type="password" name="password" placeholder="Password" />
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" />
+                <input type="text" name="address" placeholder="Address" />
+            </div>
+            <button type="submit">button</button>
+            <form-debug></form-debug>
+        </reactive-form>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
