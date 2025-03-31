@@ -1,7 +1,7 @@
 // my-element.ts
-import { counterSignal } from "../signal"
+import { count2 } from "../signal"
 
-export class CounterElem extends HTMLElement {
+export class AnotherCounter extends HTMLElement {
     private span: HTMLSpanElement
     private unsubscribe: () => void
 
@@ -31,7 +31,7 @@ export class CounterElem extends HTMLElement {
         this.span = document.createElement('span')
 
         button.textContent = 'Increment'
-        this.span.textContent = String(counterSignal.get())
+        this.span.textContent = String(count2.get())
 
         wrapper.appendChild(this.span)
         wrapper.appendChild(button)
@@ -39,11 +39,11 @@ export class CounterElem extends HTMLElement {
         shadow.appendChild(wrapper)
 
         button.addEventListener('click', () => {
-            counterSignal.set(counterSignal.get() + 1)
+            count2.set(count2.get() + 1)
         })
 
         // Subscribe to signal updates
-        this.unsubscribe = counterSignal.subscribe((val) => {
+        this.unsubscribe = count2.subscribe((val) => {
             this.span.textContent = String(val)
         })
     }
@@ -53,4 +53,4 @@ export class CounterElem extends HTMLElement {
     }
 }
 
-customElements.define('counter-elem', CounterElem)
+customElements.define('another-counter', AnotherCounter)

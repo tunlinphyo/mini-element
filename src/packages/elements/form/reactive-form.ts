@@ -7,7 +7,7 @@ import {
     setFormValues
 } from "./form-utils"
 
-export const formContext = createContext<FormDataType>('form')
+export const formContext = createContext<FormDataType>('form-context')
 
 export class ReactiveForm extends HTMLElement {
     private provider!: ContextProvider<FormDataType>
@@ -26,6 +26,7 @@ export class ReactiveForm extends HTMLElement {
         return this.formData
     }
     set data(formData: FormDataType) {
+        // updateBindings(this, formData, this.formData)
         this.initData = { ...formData }
         this.formData = { ...formData }
         this.provider.setValue(formData)

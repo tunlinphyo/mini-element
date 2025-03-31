@@ -1,4 +1,4 @@
-import { css, html, MiniElement } from "../mini-element"
+import { css, html, MiniElement } from "@mini-element"
 import { MainPage } from "./main-page"
 
 export class BottomNav extends MiniElement {

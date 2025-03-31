@@ -1,11 +1,12 @@
-import { MiniElement } from "../../mini-element"
 import { deepEqual } from "../../utils"
+import { SortableDirective } from "../directives/sortable"
 import { DynamicListItem } from "./dynamic-list-item"
 import { WithId } from "./types"
 
-export class DynamicList<T extends WithId> extends MiniElement {
-    private customElement?: DynamicListItem<T>
+export class DynamicList<T extends WithId> extends HTMLElement {
     private _list: T[] = []
+    private template?: HTMLTemplateElement
+    private sortable?: SortableDirective
 
     constructor() {
         super()
@@ -14,10 +15,11 @@ export class DynamicList<T extends WithId> extends MiniElement {
     get list() {
         return this._list
     }
+
     set list(newList: T[]) {
         const oldMap = new Map(this._list.map(item => [item.id, item]))
         const newMap = new Map(newList.map(item => [item.id, item]))
-        // Create or update
+
         for (const item of newList) {
             if (oldMap.has(item.id)) {
                 this._updateItem(item)
@@ -25,53 +27,74 @@ export class DynamicList<T extends WithId> extends MiniElement {
                 this._createItem(item)
             }
         }
-        // Remove
+
         for (const item of this._list) {
             if (!newMap.has(item.id)) {
                 this._removeItem(item.id)
             }
         }
-        // Reorder (move DOM elements in correct order)
-        for (const item of newList) {
-            const el = this.renderRoot.getElementById(item.id)
-            if (el) {
-                this.renderRoot.appendChild(el) // reorders without duplication
+
+        // Reorder <li> wrappers
+        for (let i = 0; i < newList.length; i++) {
+            const expectedId = newList[i].id
+            const currentLi = this.children[i] as HTMLLIElement
+            if (!currentLi || currentLi.dataset.id !== expectedId) {
+                const correctLi = this.querySelector(`li[data-id="${expectedId}"]`)
+                if (correctLi) {
+                    this.insertBefore(correctLi, currentLi || null)
+                }
             }
         }
+
         this._list = [...newList]
     }
 
-    onConnect(): void {
+    connectedCallback(): void {
         this.setAttribute('role', 'list')
         this.setAttribute('aria-label', 'Dynamic List')
         this.setAttribute('aria-live', 'polite')
         this.setAttribute('aria-relevant', 'additions removals')
         this.setAttribute('aria-atomic', 'true')
-        this.customElement = this.querySelector('*') as DynamicListItem<T>
-        if  (!this.customElement) return
-        for (const item of this.list) {
+
+        const tmpl = this.querySelector('template')
+        if (tmpl && tmpl instanceof HTMLTemplateElement) {
+            this.template = tmpl
+        }
+
+        for (const item of this._list) {
             this._createItem(item)
+        }
+
+        if (!this.sortable) {
+            this.sortable = new SortableDirective(this)
         }
     }
 
     private _createItem(data: T) {
-        if (this.customElement) {
-            const elem = this.customElement.cloneNode(true) as DynamicListItem<T>
-            elem.id = data.id
-            this._setItemData(elem, data)
-            this.renderRoot.appendChild(elem)
-        }
+        if (!this.template) return
+
+        const clone = this.template.content.firstElementChild?.cloneNode(true) as DynamicListItem<T>
+        if (!clone) return
+
+        const li = document.createElement('li')
+        li.setAttribute('role', 'listitem')
+        li.setAttribute('data-id', data.id)
+        li.appendChild(clone)
+        this.appendChild(li)
+
+        this._setItemData(clone, data)
     }
 
     private _updateItem(data: T) {
-        const elem = this.renderRoot.getElementById(data.id) as DynamicListItem<T>
+        const li = this.querySelector(`li[data-id="${data.id}"]`)
+        const elem = li?.firstElementChild as DynamicListItem<T> | null
         if (!elem) return
         this._setItemData(elem, data)
     }
 
     private _removeItem(id: string) {
-        const elem = this.renderRoot.getElementById(id)
-        elem?.remove()
+        const li = this.querySelector(`li[data-id="${id}"]`)
+        li?.remove()
     }
 
     private _setItemData(elem: DynamicListItem<T>, data: T) {

@@ -1,3 +1,4 @@
-import { WritableSignal } from '../../packages/signal'
+import { signal } from "@mini-element/signal"
 
-export const counterSignal = new WritableSignal<number>(0)
+export const counterSignal = signal(0)
+export const count2 = signal(0)

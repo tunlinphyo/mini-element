@@ -1,4 +1,4 @@
-import { MiniElement, PropertyChange, PropertyDefinition, html } from "../mini-element"
+import { MiniElement, PropertyChange, PropertyDefinition, html } from "@mini-element"
 import { TextDisplay } from "./text-display"
 
 export class NumberCounter extends MiniElement {

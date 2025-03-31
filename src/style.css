@@ -24,14 +24,38 @@ dynamic-list {
 }
 
 dynamic-list-item {
-  display: flex;
-  gap: 0.5rem;
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #999;
+
+  background-color: Canvas;
+  color: CanvasText;
+
+  h4 {
+    color: light-dark(blue, lightblue);
+    margin: 0;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .5rem;
+
+    & button {
+      width: initial;
+    }
+  }
+
+  &[sortable] {
+    .actions {
+      display: none;
+    }
+  }
 }
 
-input {
+input[type=text],
+input[type=email],
+input[type=number] {
   margin-block: 4px;
   padding: 8px;
   width: 100%;

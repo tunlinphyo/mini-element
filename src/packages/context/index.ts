@@ -1,6 +1,6 @@
 // context.ts
 export type Context<T> = symbol & { __contextType?: T };
-export type ContextCallback<T> = (value: T) => void;
+export type ContextCallback<T> = (value: T, oldValue: T) => void;
 
 interface ContextRequestDetail<T> {
     listener: HTMLElement;
@@ -31,13 +31,14 @@ export class ContextProvider<T> {
     }
 
     setValue(val: T): void {
+        const oldValue = { ...this._value }
         this._value = val;
-        this._notifyChange();
+        this._notifyChange(oldValue);
     }
 
     subscribe(host: HTMLElement, callback: ContextCallback<T>): () => void {
         this._register(host, callback);
-        callback(this._value); // immediately push
+        callback(this._value, this._value); // immediately push
 
         // Return unsubscribe function
         return () => {
@@ -88,12 +89,12 @@ export class ContextProvider<T> {
         }
     }
 
-    private _notifyChange(): void {
+    private _notifyChange(oldValue: T): void {
         for (const host of this.listeners) {
             const set = this.callbacks.get(host);
             if (!set) continue;
             for (const cb of set) {
-                cb(this._value);
+                cb(this._value, oldValue);
             }
         }
     }

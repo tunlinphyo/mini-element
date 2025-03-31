@@ -1,4 +1,4 @@
-import { MiniElement, css, html } from '../mini-element'
+import { MiniElement, css, html } from '@mini-element'
 import { ScrollView } from './scroll-view'
 
 export class PageDialog extends MiniElement {

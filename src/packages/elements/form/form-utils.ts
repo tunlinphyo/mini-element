@@ -2,7 +2,7 @@
 export type TypedValue = string | number | boolean | null | string[]
 
 export interface FormDataType {
-    [key: string]: string | number | boolean | string[] | null
+    [key: string]: TypedValue
 }
 
 export function collectInitialFormData(form: HTMLElement): FormDataType {

@@ -1,4 +1,4 @@
-import { css, html, MiniElement } from "../mini-element"
+import { css, html, MiniElement } from "@mini-element"
 
 export class TextDisplay extends MiniElement {
     static styles = css`

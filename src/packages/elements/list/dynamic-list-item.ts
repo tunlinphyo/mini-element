@@ -1,38 +1,52 @@
-import { MiniElement } from "../../mini-element"
 import { deepEqual } from "../../utils"
 import { updateBindings } from "../data-bind"
 import { WithId } from "./types"
 
-export abstract class DynamicListItem<T extends WithId> extends MiniElement {
-    private _data: T
-    
-    get data() {
-        return this._data
+export class DynamicListItem<T extends WithId> extends HTMLElement {
+    protected renderRoot: ShadowRoot
+    private _data: T = {} as T
+
+    get data(): T {
+        return { ...this._data }
     }
+
     set data(value: T) {
         if (deepEqual(this._data, value)) return
+        updateBindings(this, value, this.data) // apply data bindings directly to this element
         this._data = value
-        this.setAttribute('role', 'listitem')
-        this.setAttribute('aria-label', value.id)
-        updateBindings(value, this.renderRoot)
     }
 
     constructor() {
         super()
-        this._data = {} as T
+        this.renderRoot = this.attachShadow({ mode: 'open' })
+        this._onClick = this._onClick.bind(this)
+
+        const style = document.createElement('style')
+        style.innerHTML = `
+            :host {
+                display: block;
+            }
+        `
+        const slot = document.createElement('slot')
+        this.renderRoot.appendChild(style)
+        this.renderRoot.appendChild(slot)
     }
 
-    protected onConnect(): void {
-        this.setAttribute('role', 'listitem')
+    connectedCallback(): void {
+        this.addEventListener('click', this._onClick)
     }
 
-    protected onClick(e: Event): void {
+    disconnectedCallback() {
+        this.removeEventListener('click', this._onClick)
+    }
+
+    private _onClick(e: Event): void {
         const target = e.target as HTMLElement
         if (target.hasAttribute('data-button')) {
             this.dispatchEvent(new CustomEvent('item-click', {
                 detail: {
-                    id: this.data.id,
-                    data: this.data,
+                    id: this._data.id,
+                    data: this._data,
                     dataset: target.dataset
                 },
                 bubbles: true,
@@ -41,3 +55,5 @@ export abstract class DynamicListItem<T extends WithId> extends MiniElement {
         }
     }
 }
+
+customElements.define('dynamic-list-item', DynamicListItem)

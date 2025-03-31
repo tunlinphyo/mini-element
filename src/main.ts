@@ -1,37 +1,68 @@
 import './style.css'
 import { DynamicList } from './packages/elements'
-import { Item } from './scripts/components/user-card'
 
-import './packages/elements'
+import '@mini-element/elements'
+
 import "./scripts/components/form-debug"
 import "./scripts/components/user-card"
+import "./scripts/components/counter-elem"
+import "./scripts/components/another-counter"
+import "./scripts/components/reactive-test"
+
+type Item = {
+    id: string
+    name: string
+    age: number
+    email: string
+    color?: {
+        id: string
+        name: string
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+    const sortButton = document.getElementById('sort')
     const list = document.querySelector('dynamic-list') as DynamicList<Item>
     let dataList: Item[] = [
         {
             id: '1',
             name: 'John Doe',
             age: 30,
-            email: 'john@gmail.com'
+            email: 'john@gmail.com',
+            color: {
+                id: 'one',
+                name: 'Red'
+            }
         },
         {
             id: '2',
             name: 'Jane Smith',
             age: 25,
-            email: 'jane@gmail.com'
+            email: 'jane@gmail.com',
+            color: {
+                id: 'one',
+                name: 'Red'
+            }
         },
         {
             id: '3',
             name: 'Alice Johnson',
             age: 28,
-            email: 'alice@gmail.com'
+            email: 'alice@gmail.com',
+            color: {
+                id: 'two',
+                name: 'Blue'
+            }
         },
         {
             id: '4',
             name: 'Bob Brown',
             age: 35,
-            email: 'bob@gmail.com'
+            email: 'bob@gmail.com',
+            color: {
+                id: 'three',
+                name: 'Green'
+            }
         }
     ]
     dataList = dataList.sort((a, b) => a.age - b.age)
@@ -74,13 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Item clicked:', detail)
         }
     })
-})
 
-function shuffleArray<T>(array: T[]): T[] {
-    const result = [...array]; // Copy to avoid mutating the original array
-    for (let i = result.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [result[i], result[j]] = [result[j], result[i]]; // Swap
-    }
-    return result;
-}
+    sortButton?.addEventListener('click', () => {
+        if (list.hasAttribute('sortable')) {
+            list.removeAttribute('sortable')
+        } else {
+            list.setAttribute('sortable', '')
+        }
+    })
+})
