@@ -1,5 +1,8 @@
 import { ContextProvider, createContext } from "@mini-element/context";
-import { extractDataFromBindings } from "../data-extract";
+import { extractDataFromBindings, setValueByPath } from "../data-extract";
+import { updateBindings } from "@mini-element/elements";
+import { deepMerge, queryBindElements } from "../../utils";
+import { getValueByPath } from '../data-bind';
 
 type DataType = Record<string, unknown>
 
@@ -8,18 +11,20 @@ export const reactiveContext = createContext<DataType>('reactive-context')
 export class ReactiveDirective {
     private data: DataType = {}
     private provider!: ContextProvider<DataType>
-    private attrObserver: MutationObserver;
+    private scoped: boolean = true
+    // private attrObserver: MutationObserver;
 
-    constructor(private host: HTMLElement) {
-        this.attrObserver = new MutationObserver(mutations => {
-            for (const mutation of mutations) {
-                console.log('MUTATION', mutation)
-                const data = extractDataFromBindings(host)
-                this.provider.setValue(data)
-            }
-        });
+    constructor(private host: HTMLElement, callback?: (data: DataType) => void) {
+        this.scoped = host.hasAttribute('scoped')
+        // this.attrObserver = new MutationObserver(mutations => {
+        //     for (const mutation of mutations) {
+        //         console.log('MUTATION', mutation)
+        //         // const data = extractDataFromBindings(host)
+        //         // this.provider.setValue(data)
+        //     }
+        // });
 
-        this.attrObserver.observe(host, { subtree: true, characterData: true })
+        // // this.attrObserver.observe(host, { subtree: true, attributes: true })
 
         this.data = extractDataFromBindings(host)
 
@@ -28,11 +33,77 @@ export class ReactiveDirective {
         })
 
         this.provider.subscribe(host, value => {
-            console.log(value)
+            if (callback) callback(value)
         })
+
+        this.onClick = this.onClick.bind(this)
+
+        this.listeners()
+    }
+
+    listeners() {
+        this.host.addEventListener('click', this.onClick)
+    }
+
+    private onClick(e: Event) {
+        if (this.scoped) e.stopPropagation()
+        const target = e.target as HTMLElement
+        if (target.hasAttribute('data-button')) {
+            if (target.dataset.button === 'toggle') {
+                target.dataset.toggle = target.dataset.toggle === 'on' ? 'off' : 'on'
+                this.toggle(target.dataset, target.dataset.toggle === 'on')
+            }
+            if (target.dataset.button === 'context') {
+                this.setContaxt(target)
+            }
+        }
+    }
+
+    private setContaxt(target: HTMLElement) {
+        if (target.dataset.context) {
+            const context = target.dataset.context
+            const [property, values] = context.split(':')
+            const list = values.split('|')
+            const value = getValueByPath(this.provider.value, property)
+            let index = list.indexOf(value)
+            index += 1
+            if (index >= list.length) index = 0
+
+            const data: Record<string, any> = {};
+            setValueByPath(data, property, list[index] || '')
+
+            const oldData = { ...this.provider.value }
+            const newData = deepMerge(this.provider.value, data)
+            updateBindings(this.host, newData, oldData)
+            this.provider.setValue(newData)
+        }
+    }
+
+    private toggle(dataset: DOMStringMap, isOn: boolean) {
+        if (!dataset.target) return
+        const elems = queryBindElements(this.host, 'data-toggle-target', dataset.target)
+        // this.host.querySelectorAll<HTMLElement>(`[data-toggle-target=${dataset.target}]`)
+
+        for(const elem of elems) {
+            if (elem.dataset.style) {
+                const style = elem.dataset.style
+                const [property, values] = style.split(':')
+                const [on, off] = values?.split('|') || []
+
+                if (!property || on === undefined || off === undefined) continue
+
+                if (property in elem.style) {
+                    elem.style[property as any] = isOn ? on : off
+                }
+            }
+            if (elem.dataset.attr) {
+                elem.dataset.attr = dataset.toggle
+            }
+        }
     }
 
     destroy() {
-        this.attrObserver.disconnect()
+        // this.attrObserver.disconnect()
+        this.host.removeEventListener('click', this.onClick)
     }
 }

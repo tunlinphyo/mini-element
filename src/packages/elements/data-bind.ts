@@ -1,11 +1,11 @@
-import { deepEqual } from "../utils";
+import { deepEqual, queryBindElements } from "../utils";
 
-function getValueByPath(obj: any, path: string): any {
+export function getValueByPath(obj: any, path: string): any {
     return path.split('.').reduce((acc, part) => acc?.[part], obj);
 }
 
 export function updateBindings(
-    root: HTMLElement | ShadowRoot,
+    root: HTMLElement,
     newData: Record<string, any>,
     oldData?: Record<string, any>
 ) {
@@ -40,9 +40,9 @@ export function updateBindings(
     }
 
     // Text content bindings
-    root.querySelectorAll<HTMLElement>('[data-bind-text]').forEach(el => {
+    for (const el of queryBindElements(root, 'data-bind-text')) {
         const key = el.getAttribute('data-bind-text');
-        if (!key) return;
+        if (!key) continue;
 
         const newVal = getValueByPath(newData, key);
         const oldVal = getValueByPath(oldData, key);
@@ -50,13 +50,13 @@ export function updateBindings(
         if (!deepEqual(newVal, oldVal)) {
             el.textContent = setValue(newVal);
         }
-    });
+
+    }
 
     // Form data bindings
-    root.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[data-bind]').forEach(el => {
-        console.log(el)
+    for (const el of queryBindElements<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(root, 'data-bind')) {
         const key = el.getAttribute('data-bind');
-        if (!key) return;
+        if (!key) continue;
 
         const newVal = getValueByPath(newData, key);
         const oldVal = getValueByPath(oldData, key);
@@ -64,10 +64,10 @@ export function updateBindings(
         if (!deepEqual(newVal, oldVal)) {
             el.value = setValue(newVal);
         }
-    });
+    }
 
     // Attribute bindings
-    root.querySelectorAll<HTMLElement>('[data-bind-attr]').forEach(el => {
+    for (const el of queryBindElements(root, 'data-bind-attr')) {
         const bindings = el.getAttribute('data-bind-attr')?.split(';') || [];
 
         bindings.forEach(binding => {
@@ -84,5 +84,5 @@ export function updateBindings(
                 el.setAttribute(attrName, setValue(newVal));
             }
         });
-    });
+    }
 }

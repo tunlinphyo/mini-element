@@ -53,9 +53,37 @@ dynamic-list-item {
   }
 }
 
+div[data-toggle-target="toggle"],
+div[data-toggle-target="outie"],
+div[data-toggle-target="innie"] {
+  transition: opacity .2s ease;
+  overflow: hidden;
+  &[data-attr=on] {
+    opacity: 1;
+    display: block;
+  }
+  &[data-attr=off] {
+    opacity: .1;
+    display: none;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+
+  & button {
+    width: initial;
+    padding-inline: 20px;
+  }
+}
+
 input[type=text],
 input[type=email],
-input[type=number] {
+input[type=number],
+select,
+textarea {
   margin-block: 4px;
   padding: 8px;
   width: 100%;

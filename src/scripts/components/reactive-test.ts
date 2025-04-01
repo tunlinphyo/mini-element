@@ -6,8 +6,13 @@ export class ReactiveTest extends MiniElement {
 
     constructor() {
         super()
+        this.reactive = new ReactiveDirective(this, (value) => {
+            console.log(value)
+        })
+    }
 
-        this.reactive = new ReactiveDirective(this)
+    protected onDisconnect(): void {
+        this.reactive = undefined
     }
 
     protected render() {

@@ -72,15 +72,16 @@ declare module '@mini-element/context' {
 declare module '@mini-element/signal' {
     export interface Signal<T> {
         get(): T;
-        subscribe(callback: (value: T) => void): () => void;
     }
+    export type Effect = () => void;
 
-    export function signal<T>(initialValue: T): Signal<T> & {
-        set(value: T): void;
-    };
+    export function signal<T>(value: T): import('./signal').Signal.State<T>;
 
-    export function computed<T>(computeFn: () => T): Signal<T>;
-    export function effect(run: () => void): void;
+    export function computed<T>(
+        compute: (this: import('./signal').Signal.Computed<T>) => T
+    ): import('./signal').Signal.Computed<T>;
+
+    export function effect(callback: () => void, signals: Signal<any>[]): () => void;
 }
 
 declare module '@mini-element/elements' {
@@ -154,8 +155,9 @@ declare module '@mini-element/elements/directives' {
         constructor(private host: HTMLElement);
         destroy(): void;
     }
+
     export class ReactiveDirective {
-        constructor(private host: HTMLElement);
+        constructor(private host: HTMLElement, callback?: (data: DataType) => void);
         destroy(): void;
     }
 }

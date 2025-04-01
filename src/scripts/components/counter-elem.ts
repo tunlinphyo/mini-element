@@ -1,9 +1,10 @@
 // my-element.ts
+import { effect, Effect } from "@mini-element/signal"
 import { counterSignal } from "../signal"
 
 export class CounterElem extends HTMLElement {
     private span: HTMLSpanElement
-    private unsubscribe: () => void
+    private effect: Effect
 
     constructor() {
         super()
@@ -43,13 +44,14 @@ export class CounterElem extends HTMLElement {
         })
 
         // Subscribe to signal updates
-        this.unsubscribe = counterSignal.subscribe((val) => {
-            this.span.textContent = String(val)
-        })
+        this.effect = effect(() => {
+            this.span.textContent = String(counterSignal.get())
+        }, [counterSignal])
+
     }
 
     disconnectedCallback() {
-        this.unsubscribe?.()
+        this.effect()
     }
 }
 
