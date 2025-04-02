@@ -75,18 +75,21 @@ export class ReactiveForm extends HTMLElement {
         })
 
         this.addEventListener('input', this.boundOnInput, true)
+        // this.addEventListener('change', this.boundOnInput, true)
         this.addEventListener('click', this.boundOnClick, true)
         this.addEventListener('keydown', this.boundOnKeydown, true)
     }
 
     disconnectedCallback() {
         this.removeEventListener('input', this.boundOnInput, true)
+        // this.removeEventListener('change', this.boundOnInput, true)
         this.removeEventListener('click', this.boundOnClick, true)
         this.removeEventListener('keydown', this.boundOnKeydown, true)
     }
 
     private _onInput(e: Event): void {
         const el = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        console.log(el.name, el.value)
         const name = el.name
         if (!name) return
 

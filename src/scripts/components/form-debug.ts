@@ -12,8 +12,15 @@ export class FormDebug extends MiniElement {
     static styles = css`
         :host {
             display: grid;
-            background-color: light-dark(lightgray, #333);
-            padding: 10px;
+            padding: 1rem;
+            background: rgba(128, 128, 128, 0.3);
+            background-blend-mode: luminosity;
+            backdrop-filter: blur(50px);
+            border-radius: 24px;
+
+            h4 {
+                margin: 0;
+            }
         }
     `
 

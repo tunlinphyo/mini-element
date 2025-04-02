@@ -1,7 +1,7 @@
 import { ContextProvider, createContext } from "@mini-element/context";
 import { extractDataFromBindings, setValueByPath } from "../data-extract";
 import { updateBindings } from "@mini-element/elements";
-import { deepMerge, queryBindElements } from "../../utils";
+import { deepMerge } from "../../utils";
 import { getValueByPath } from '../data-bind';
 
 type DataType = Record<string, unknown>
@@ -81,8 +81,7 @@ export class ReactiveDirective {
 
     private toggle(dataset: DOMStringMap, isOn: boolean) {
         if (!dataset.target) return
-        const elems = queryBindElements(this.host, 'data-toggle-target', dataset.target)
-        // this.host.querySelectorAll<HTMLElement>(`[data-toggle-target=${dataset.target}]`)
+        const elems = this.host.querySelectorAll<HTMLElement>(`[data-toggle-target=${dataset.target}]`)
 
         for(const elem of elems) {
             if (elem.dataset.style) {

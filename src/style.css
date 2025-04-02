@@ -15,6 +15,113 @@
   box-sizing: border-box;
 }
 
+body {
+  /* background-image: linear-gradient(to bottom, red, blue 30%); */
+  /* backdrop-filter: blur(50px) brightness(1); */
+  margin: 0;
+  padding: 10px;
+  position: relative;
+
+  background: rgba(128, 128, 128, 0.3);
+  background-blend-mode: luminosity;
+  /* backdrop-filter: blur(50px); */
+
+  &::before {
+    content: '';
+    display: block;
+    position: fixed;
+    z-index: -2;
+    inset: 0;
+    background-image: url(/bg.png);
+    background-size: cover;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    height: 100%;
+    backdrop-filter: blur(50px);
+    background-color: light-dark(#fff9, #333B);
+  }
+}
+
+button {
+  border: none;
+  color: canvasText;
+  font-size: inherit;
+  box-shadow:
+    0 1px 1px 0 light-dark(#0003, #0005),
+    inset 0 1px 1px 0 light-dark(#fffb, #fff5);
+
+  background:
+    radial-gradient(101.06% 100% at 50% 100%, rgba(94, 94, 94, 0.14) 0%, rgba(94, 94, 94, 0) 73.85%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    radial-gradient(100% 100% at 50% 100%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 55.59%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    linear-gradient(0deg, rgba(94, 94, 94, 0.18), rgba(94, 94, 94, 0.18)), rgba(255, 255, 255, 0.06);
+  background-blend-mode: color-dodge, normal, color-dodge, lighten;
+  border-radius: 100px;
+}
+
+[data-glass] {
+  /* background: rgba(128, 128, 128, 0.3);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(50px);
+  border-radius: 24px; */
+
+  /* background: linear-gradient(0deg, rgba(94, 94, 94, 0.06), rgba(94, 94, 94, 0.06)), rgba(255, 255, 255, 0.04);
+  background-blend-mode: color-dodge, lighten;
+  border-radius: 16px; */
+
+  background: linear-gradient(0deg, rgba(94, 94, 94, 0.36), rgba(94, 94, 94, 0.36)), rgba(255, 255, 255, 0.16);
+  background-blend-mode: color-dodge, lighten;
+  border-radius: 16px;
+
+
+}
+
+.test {
+  /* Type=1 Action */
+
+  box-sizing: border-box;
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 8px;
+
+  position: absolute;
+  width: 320px;
+  height: 227px;
+  left: 380px;
+  top: 20px;
+
+  /* Windows/Glass */
+  background: rgba(128, 128, 128, 0.3);
+  background-blend-mode: luminosity;
+  /* Blur */
+  backdrop-filter: blur(50px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 32px;
+
+}
+
+input,
+select,
+textarea {
+  color: canvasText;
+  border: none;
+  /* Recessed */
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), rgba(208, 208, 208, 0.5);
+  background-blend-mode: luminosity, color-burn;
+  box-shadow: inset 0px -0.5px 1px rgba(255, 255, 255, 0.3), inset 0px -0.5px 1px rgba(255, 255, 255, 0.25), inset 1px 1.5px 4px rgba(0, 0, 0, 0.08), inset 1px 1.5px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 16px;
+}
+
 dynamic-list {
   list-style: none;
   display: flex;
@@ -24,11 +131,9 @@ dynamic-list {
 }
 
 dynamic-list-item {
-  padding: 8px;
+  padding: 16px;
   border-radius: 4px;
-  border: 1px solid #999;
 
-  background-color: Canvas;
   color: CanvasText;
 
   h4 {
@@ -70,6 +175,7 @@ div[data-toggle-target="innie"] {
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: .5rem;
 
@@ -99,4 +205,17 @@ button {
 .flex {
   display: flex;
   gap: 0.5rem;
+}
+
+custom-select {
+  margin-block: 4px;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  /* Recessed */
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), rgba(208, 208, 208, 0.5);
+  background-blend-mode: luminosity, color-burn;
+  box-shadow: inset 0px -0.5px 1px rgba(255, 255, 255, 0.3), inset 0px -0.5px 1px rgba(255, 255, 255, 0.25), inset 1px 1.5px 4px rgba(0, 0, 0, 0.08), inset 1px 1.5px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 16px;
 }

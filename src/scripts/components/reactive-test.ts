@@ -11,6 +11,10 @@ export class ReactiveTest extends MiniElement {
         })
     }
 
+    protected onConnect(): void {
+
+    }
+
     protected onDisconnect(): void {
         this.reactive = undefined
     }

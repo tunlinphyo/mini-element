@@ -81,3 +81,21 @@ export function queryBindElements<T extends HTMLElement>(root: Element, attrName
 
     return results;
 }
+
+export function queryOutsideScoped<T extends Element>(
+    root: Element,
+    selector: string
+): T[] {
+    const matches = Array.from(root.querySelectorAll<T>(selector));
+
+    return matches.filter(el => {
+        let current: Element | null = el;
+        while (current && current !== root) {
+            if (current.hasAttribute('scoped')) {
+                return false;
+            }
+            current = current.parentElement;
+        }
+        return true;
+    });
+}

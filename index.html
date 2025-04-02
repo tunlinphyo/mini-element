@@ -5,13 +5,18 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + TS</title>
+    <script type="module">
+        if (!("anchorName" in document.documentElement.style)) {
+            import("https://unpkg.com/@oddbird/css-anchor-positioning");
+        }
+    </script>
 </head>
 <body>
     <main>
-        <reactive-test>
-            <button data-button="toggle" data-toggle="on" data-target="toggle">TOGGLE</button>
-            <div data-toggle-target="toggle" data-style="height:auto|0">Hello Wolrd!</div>
-            <div data-toggle-target="toggle" data-attr="on">Hello Wolrd! Again!</div>
+        <reactive-test scoped>
+            <button data-button="toggle" data-toggle="on" data-target="outie">TOGGLE</button>
+            <div data-toggle-target="outie" data-style="height:auto|0">Hello Wolrd!</div>
+            <div data-toggle-target="outie" data-attr="on">Hello Wolrd! Again!</div>
             <div class="actions">
                 <button data-button="context" data-context="outie.page:one|two|three">CONTEXT</button>
                 <button data-button="context" data-context="outie.page:one">ONE</button>
@@ -34,9 +39,9 @@
             </div>
             <!-- innie -->
             <reactive-test scoped>
-                <button data-button="toggle" data-toggle="on" data-target="toggle">TOGGLE</button>
-                <div data-toggle-target="toggle" data-style="display:block|none">Hello Wolrd!</div>
-                <div data-toggle-target="toggle" data-attr="on">Hello Wolrd! Again!</div>
+                <button data-button="toggle" data-toggle="on" data-target="innie">TOGGLE</button>
+                <div data-toggle-target="innie" data-style="display:block|none">Hello Wolrd!</div>
+                <div data-toggle-target="innie" data-attr="on">Hello Wolrd! Again!</div>
                 <div class="actions">
                     <button data-button="context" data-context="innie.page:one|two|three">CONTEXT</button>
                     <button data-button="context" data-context="innie.page:one">ONE</button>
@@ -64,16 +69,16 @@
         </div>
         <dynamic-list>
             <template>
-                <dynamic-list-item data-bind-attr="title:name">
+                <dynamic-list-item data-glass data-bind-attr="title:name">
                     <h4 data-bind-text="name"></h4>
                     <div data-bind-attr="data-id:id">
                         Email: <span data-bind-text="email"></span> |
                         Age: <span data-bind-text="age"></span>
                     </div>
-                    <div>
+                    <!-- <div>
                         <span data-bind-text="color.id"></span>
                         <span data-bind-text="color.name"></span>
-                    </div>
+                    </div> -->
                     <div class="actions">
                         <button data-button="delete">Delete</button>
                         <button data-button="edit">Edit</button>
@@ -120,6 +125,13 @@
                 <option value="three">Three</option>
                 <option value="four">Four</option>
             </select>
+
+            <custom-select name="custom">
+                <custom-option value="one">One</custom-option>
+                <custom-option value="two">Two</custom-option>
+                <custom-option value="three">Three</custom-option>
+                <custom-option value="four">Four</custom-option>
+            </custom-select>
             <div>
                 <label>
                     <input type="radio" name="gender" value="male"> Male
@@ -151,6 +163,7 @@
                 <div>Email: <span data-bind-text="email"></span></div>
                 <div>Address: <span data-bind-text="address"></span></div>
                 <div>Select: <span data-bind-text="select"></span></div>
+                <div>Custom Select: <span data-bind-text="custom"></span></div>
                 <div>Gender: <span data-bind-text="gender"></span></div>
                 <div>Job: <span data-bind-text="job"></span></div>
                 <div>Textarea: <span data-bind-text="textarea"></span></div>

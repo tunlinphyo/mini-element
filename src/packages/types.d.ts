@@ -146,6 +146,21 @@ declare module '@mini-element/elements' {
         connectedCallback(): void;
         disconnectedCallback(): void;
     }
+
+    export class CustomSelect extends HTMLElement {
+        constructor();
+
+        connectedCallback(): void;
+        disconnectedCallback(): void;
+    }
+    export class CustomOption extends HTMLElement {
+        public value: string;
+
+        constructor();
+
+        connectedCallback(): void;
+        disconnectedCallback(): void;
+    }
 }
 
 declare module '@mini-element/elements/directives' {
