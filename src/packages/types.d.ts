@@ -70,10 +70,8 @@ declare module '@mini-element/context' {
 }
 
 declare module '@mini-element/signal' {
-    export interface Signal<T> {
-        get(): T;
-    }
     export type Effect = () => void;
+    export type State<T> = import('./signal').Signal.State<T>;
 
     export function signal<T>(value: T): import('./signal').Signal.State<T>;
 

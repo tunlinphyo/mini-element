@@ -1,20 +1,28 @@
 
 export type TypedValue = string | number | boolean | null | string[]
 
-export interface FormDataType {
-    [key: string]: TypedValue
-}
+export type FormDataType = Record<string, TypedValue>
 
 export function collectInitialFormData(form: HTMLElement): FormDataType {
     const data: FormDataType = {}
+
     const elements = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
         'input[name], select[name], textarea[name]'
     )
 
+    // Track radio groups
+    const radioGroups = new Set<string>()
+
     elements.forEach((el) => {
         const name = el.name
         if (!name) return
+
         const value = parseFormValue(el)
+
+        if (el instanceof HTMLInputElement && el.type === 'radio') {
+            radioGroups.add(name)
+            if (!el.checked) return // only take checked radio
+        }
 
         if (value !== null) {
             const existing = data[name]
@@ -24,6 +32,13 @@ export function collectInitialFormData(form: HTMLElement): FormDataType {
             } else {
                 data[name] = value
             }
+        }
+    })
+
+    // Add empty string for unchecked radio groups
+    radioGroups.forEach((name) => {
+        if (!(name in data)) {
+            data[name] = ''
         }
     })
 

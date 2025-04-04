@@ -1,4 +1,5 @@
-import './style.css'
+// import './style.css'
+import './demo.css'
 import { DynamicList } from './packages/elements'
 
 import '@mini-element/elements'
@@ -8,6 +9,8 @@ import "./scripts/components/user-card"
 import "./scripts/components/counter-elem"
 import "./scripts/components/another-counter"
 import "./scripts/components/reactive-test"
+
+import './scripts/components/mini-test'
 
 type Item = {
     id: string
@@ -19,6 +22,15 @@ type Item = {
         name: string
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const reactiveForm = document.querySelector('reactive-form') as HTMLFormElement
+    reactiveForm.addEventListener('submit', () => {
+        const data = reactiveForm.getFormData()
+        // console.log("DATA", data)
+        console.log(JSON.stringify(data, null, 2))
+    })
+})
 
 document.addEventListener('DOMContentLoaded', () => {
     const sortButton = document.getElementById('sort')

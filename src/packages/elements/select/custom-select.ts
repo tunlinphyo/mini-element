@@ -1,9 +1,9 @@
 import { css } from "@mini-element"
 import { CustomOption } from "./custom-option"
 
-
 export class CustomSelect extends HTMLElement {
     protected renderRoot: ShadowRoot
+    private styleEl: HTMLStyleElement
     private inputEl: HTMLInputElement
     private buttonEl: HTMLElement
     private popoverEl: HTMLElement
@@ -28,19 +28,19 @@ export class CustomSelect extends HTMLElement {
         this._popoverClick = this._popoverClick.bind(this)
         this._onPopoverChange = this._onPopoverChange.bind(this)
 
-        const styleEl = this._createStyles()
+        this.styleEl = this._createStyles()
         this.inputEl = this._createInput()
         this.buttonEl = this._createButton()
         this.popoverEl = this._createPopover()
         this.layerEl = this._createLayer()
 
-        this.renderRoot.appendChild(styleEl)
+        this.renderRoot.appendChild(this.styleEl)
         this.appendChild(this.inputEl)
         this.renderRoot.appendChild(this.buttonEl)
         this.renderRoot.appendChild(this.popoverEl)
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         this.addEventListener('click', this._onClick)
         this.popoverEl.addEventListener('click', this._popoverClick)
         this.layerEl.addEventListener('click', this._popoverClick)
@@ -51,6 +51,40 @@ export class CustomSelect extends HTMLElement {
         // Optional: reposition on scroll/resize
         window.addEventListener('scroll', () => this._positionPopover(this.popoverEl, this), true);
         window.addEventListener('resize', () => this._positionPopover(this.popoverEl, this));
+
+        if (!('anchorName' in document.documentElement.style)) {
+            // polyfill({
+            //   elements: [this.styleEl, this.buttonEl, this.popoverEl],
+            //   excludeInlineStyles: true,
+            //   useAnimationFrame: true,
+            // });
+            // //mutation observer for changes.
+            // const observer = new MutationObserver(()=>{
+            //     polyfill({
+            //         elements: [this.styleEl, this.buttonEl, this.popoverEl],
+            //         excludeInlineStyles: true,
+            //         useAnimationFrame: true,
+            //     });
+            // });
+            // observer.observe(this.renderRoot, {
+            //     childList: true,
+            //     subtree: true,
+            //     attributes: true,
+            //     characterData: true,
+            // });
+          }
+
+        // anchorPosition.default.process(this.renderRoot);
+        // // Observe changes inside shadow root, and re-process when needed.
+        // const observer = new MutationObserver(() => {
+        //     anchorPosition.process(this.renderRoot);
+        // });
+        // observer.observe(this.renderRoot, {
+        //     childList: true,
+        //     subtree: true,
+        //     attributes: true,
+        //     characterData: true,
+        // });
     }
 
     disconnectedCallback() {
@@ -118,6 +152,7 @@ export class CustomSelect extends HTMLElement {
                 /* bottom: anchor(top);
                 left: anchor(left); */
                 position-anchor: --custom-select;
+                position-anchor: bottom center;
                 position-area: bottom center;
                 transform-origin: top center;
 
@@ -127,9 +162,12 @@ export class CustomSelect extends HTMLElement {
                 opacity: 0;
                 scale: .3;
 
-                &[data-placement="top"] {
-                    position-area: top center;
-                    transform-origin: bottom center;
+                @supports (position-area: bottom center) {
+                    &[data-placement="top"] {
+                        top: initial;
+                        position-area: top center;
+                        transform-origin: bottom center;
+                    }
                 }
 
                 &:popover-open {

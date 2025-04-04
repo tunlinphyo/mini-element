@@ -30,10 +30,12 @@ export class FormDebug extends MiniElement {
 
     protected onConnect() {
         const counterEl = document.createElement('p')
+        const preEl = document.createElement('pre')
 
         this.consumer = new ContextConsumer(this, formContext)
         this.consumer.subscribe((form, oldForm) => {
-            updateBindings(this, form, oldForm)
+            // updateBindings(this, form, oldForm)
+            preEl.textContent = JSON.stringify(form, null, 2)
         })
 
         const double = computed(() => counterSignal.get() * 2)
@@ -42,7 +44,8 @@ export class FormDebug extends MiniElement {
             counterEl.textContent = String(double.get()) + ' : ' + String(count2.get())
         }, [double, count2])
 
-        this.renderRoot.appendChild(counterEl)
+        // this.renderRoot.appendChild(counterEl)
+        this.renderRoot.appendChild(preEl)
     }
 
     protected onDisconnect() {

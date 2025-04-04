@@ -89,7 +89,6 @@ export class ReactiveForm extends HTMLElement {
 
     private _onInput(e: Event): void {
         const el = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-        console.log(el.name, el.value)
         const name = el.name
         if (!name) return
 

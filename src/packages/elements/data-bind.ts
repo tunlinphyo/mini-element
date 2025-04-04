@@ -9,6 +9,7 @@ export function updateBindings(
     newData: Record<string, any>,
     oldData?: Record<string, any>
 ) {
+    console.log(root, newData, oldData)
     // Update root itself if it has data-bind-attr
     if (root.hasAttribute('data-bind-attr')) {
         attributeBinding(root, newData, oldData);
@@ -91,6 +92,6 @@ function getValue(value: any) {
     } else if (Array.isArray(value)) {
         return value.join(', ');
     } else {
-        return value ? String(value) : '';
+        return String(value) ?? '';
     }
 };

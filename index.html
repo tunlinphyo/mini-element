@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -11,8 +12,271 @@
         }
     </script>
 </head>
+
 <body>
     <main>
+        <mini-test>
+            <h2>Counter <span data-bind-text="status">zero</span></h2>
+            <div class="flex">
+                <button data-button="decrease">Decrease</button>
+                <span data-bind-text="count">0</span>
+                <button data-button="increase">Increase</button>
+            </div>
+        </mini-test>
+        <reactive-form>
+            <div class="light">
+                <fieldset class="picklist">
+                    <legend>A list of items to select</legend>
+                    <label>
+                        <input type="checkbox" name="light-picklist" value="item 1">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Item 1</b>
+                            <span class="rich-label--desc">Supporting line text lorem ipsum dolor sit amet,
+                                consectetur.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="checkbox" name="light-picklist" value="item 2">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Item 2</b>
+                            <span class="rich-label--desc">Supporting line text.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="checkbox" name="light-picklist" value="item 3">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Item 3</b>
+                        </span>
+                    </label>
+                </fieldset>
+
+                <fieldset class="picklist">
+                    <legend>A list of choices to make, select 1.</legend>
+                    <label>
+                        <input type="radio" name="light-radio-picklist" value="choice 1">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Choice 1</b>
+                            <span class="rich-label--desc">Supporting line text lorem ipsum dolor sit amet,
+                                consectetur.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="light-radio-picklist" value="choice 2">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Choice 2</b>
+                            <span class="rich-label--desc">Supporting line text.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="light-radio-picklist" value="choice 3">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Choice 3</b>
+                        </span>
+                    </label>
+                </fieldset>
+
+                <fieldset class="taglist">
+                    <legend><b>Flavor profile</b>: (choose many)</legend>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="floral" id="light-taglist-checkbox-floral">
+                        <label for="light-taglist-checkbox-floral">Floral</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="peachy" id="light-taglist-checkbox-peachy">
+                        <label for="light-taglist-checkbox-peachy">Peachy</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="light" id="light-taglist-checkbox-light">
+                        <label for="light-taglist-checkbox-light">Light</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="dry" id="light-taglist-checkbox-dry">
+                        <label for="light-taglist-checkbox-dry">Dry</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="citrus" id="light-taglist-checkbox-citrus">
+                        <label for="light-taglist-checkbox-citrus">Citrus</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="dark" id="light-taglist-checkbox-dark">
+                        <label for="light-taglist-checkbox-dark">Dark</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="crisp" id="light-taglist-checkbox-crisp">
+                        <label for="light-taglist-checkbox-crisp">Crisp</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="light-taglist" value="piney" id="light-taglist-checkbox-piney">
+                        <label for="light-taglist-checkbox-piney">Piney</label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="taglist">
+                    <legend><b>Flavor profile</b>: (choose one)</legend>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="floral" id="light-taglist-radio-floral">
+                        <label for="light-taglist-radio-floral">Floral</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="peachy" id="light-taglist-radio-peachy">
+                        <label for="light-taglist-radio-peachy">Peachy</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="light" id="light-taglist-radio-light">
+                        <label for="light-taglist-radio-light">Light</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="dry" id="light-taglist-radio-dry">
+                        <label for="light-taglist-radio-dry">Dry</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="citrus" id="light-taglist-radio-citrus">
+                        <label for="light-taglist-radio-citrus">Citrus</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="dark" id="light-taglist-radio-dark">
+                        <label for="light-taglist-radio-dark">Dark</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="crisp" id="light-taglist-radio-crisp">
+                        <label for="light-taglist-radio-crisp">Crisp</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="light-taglist-radio" value="piney" id="light-taglist-radio-piney">
+                        <label for="light-taglist-radio-piney">Piney</label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="dark">
+                <fieldset class="picklist">
+                    <legend>A list of items to select</legend>
+                    <label>
+                        <input type="checkbox" name="dark-picklist" value="item 1">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Item 1</b>
+                            <span class="rich-label--desc">Supporting line text lorem ipsum dolor sit amet,
+                                consectetur.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="checkbox" name="dark-picklist" value="item 2">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Item 2</b>
+                            <span class="rich-label--desc">Supporting line text.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="checkbox" name="dark-picklist" value="item 3">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Item 3</b>
+                        </span>
+                    </label>
+                </fieldset>
+
+                <fieldset class="picklist">
+                    <legend>A list of choices to make, select 1.</legend>
+                    <label>
+                        <input type="radio" name="dark-radio-picklist" value="choice 1">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Choice 1</b>
+                            <span class="rich-label--desc">Supporting line text lorem ipsum dolor sit amet,
+                                consectetur.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="dark-radio-picklist" value="choice 2">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Choice 2</b>
+                            <span class="rich-label--desc">Supporting line text.</span>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="dark-radio-picklist" value="choice 3">
+                        <span class="rich-label">
+                            <b class="rich-label--title">Choice 3</b>
+                        </span>
+                    </label>
+                </fieldset>
+
+                <fieldset class="taglist">
+                    <legend><b>Flavor profile</b>: (choose many)</legend>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="floral" id="dark-taglist-checkbox-floral">
+                        <label for="dark-taglist-checkbox-floral">Floral</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="peachy" id="dark-taglist-checkbox-peachy">
+                        <label for="dark-taglist-checkbox-peachy">Peachy</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="light" id="dark-taglist-checkbox-light">
+                        <label for="dark-taglist-checkbox-light">Light</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="dry" id="dark-taglist-checkbox-dry">
+                        <label for="dark-taglist-checkbox-dry">Dry</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="citrus" id="dark-taglist-checkbox-citrus">
+                        <label for="dark-taglist-checkbox-citrus">Citrus</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="dark" id="dark-taglist-checkbox-dark">
+                        <label for="dark-taglist-checkbox-dark">Dark</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="crisp" id="dark-taglist-checkbox-crisp">
+                        <label for="dark-taglist-checkbox-crisp">Crisp</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="checkbox" name="dark-taglist" value="piney" id="dark-taglist-checkbox-piney">
+                        <label for="dark-taglist-checkbox-piney">Piney</label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="taglist">
+                    <legend><b>Flavor profile</b>: (choose one)</legend>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="floral" id="dark-taglist-radio-floral">
+                        <label for="dark-taglist-radio-floral">Floral</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="peachy" id="dark-taglist-radio-peachy">
+                        <label for="dark-taglist-radio-peachy">Peachy</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="light" id="dark-taglist-radio-light">
+                        <label for="dark-taglist-radio-light">Light</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="dry" id="dark-taglist-radio-dry">
+                        <label for="dark-taglist-radio-dry">Dry</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="citrus" id="dark-taglist-radio-citrus">
+                        <label for="dark-taglist-radio-citrus">Citrus</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="dark" id="dark-taglist-radio-dark">
+                        <label for="dark-taglist-radio-dark">Dark</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="crisp" id="dark-taglist-radio-crisp">
+                        <label for="dark-taglist-radio-crisp">Crisp</label>
+                    </div>
+                    <div class="tag-toggle">
+                        <input type="radio" name="dark-taglist-radio" value="piney" id="dark-taglist-radio-piney">
+                        <label for="dark-taglist-radio-piney">Piney</label>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="flex">
+                <button type="reset">reset</button>
+                <button type="submit">submit</button>
+            </div>
+            <form-debug></form-debug>
+        </reactive-form>
         <reactive-test scoped>
             <button data-button="toggle" data-toggle="on" data-target="outie">TOGGLE</button>
             <div data-toggle-target="outie" data-style="height:auto|0">Hello Wolrd!</div>
@@ -37,7 +301,6 @@
                     Test: <span data-bind-text="outie.test"></span>
                 </div>
             </div>
-            <!-- innie -->
             <reactive-test scoped>
                 <button data-button="toggle" data-toggle="on" data-target="innie">TOGGLE</button>
                 <div data-toggle-target="innie" data-style="display:block|none">Hello Wolrd!</div>
@@ -75,10 +338,6 @@
                         Email: <span data-bind-text="email"></span> |
                         Age: <span data-bind-text="age"></span>
                     </div>
-                    <!-- <div>
-                        <span data-bind-text="color.id"></span>
-                        <span data-bind-text="color.name"></span>
-                    </div> -->
                     <div class="actions">
                         <button data-button="delete">Delete</button>
                         <button data-button="edit">Edit</button>
@@ -172,4 +431,5 @@
     </main>
     <script type="module" src="/src/main.ts"></script>
 </body>
+
 </html>
